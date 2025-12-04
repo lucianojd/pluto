@@ -1,0 +1,31 @@
+name: blue_planet
+services:
+  lucianod.me:
+    container_name: lucianod.me
+    image: lucianojd/lucianod.me:latest
+    networks:
+      east_blue:
+        ipv4_address: 172.18.0.4
+  proxy:
+    image: nginx:latest
+    container_name: proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro,Z
+      - ./nginx/localhost.crt:/etc/pki/nginx/server.crt:ro,Z
+      - ./nginx/localhost.key:/etc/pki/nginx/private/server.key:ro,Z
+    depends_on:
+      - lucianod.me
+    networks:
+      east_blue:
+        ipv4_address: 172.18.0.3
+  
+networks:
+  east_blue:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1
