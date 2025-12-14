@@ -3,6 +3,8 @@ services:
   lucianod.me:
     container_name: lucianod.me
     image: lucianojd/lucianod.me:latest
+    env_file:
+      - ./.env
     networks:
       east_blue:
         ipv4_address: 172.18.0.4
