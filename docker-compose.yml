@@ -23,7 +23,16 @@ services:
     networks:
       east_blue:
         ipv4_address: 172.18.0.3
-  
+  cache:
+    image: redis:latest
+    container_name: cache
+    volumes:
+      - cache_data:/data
+    networks:
+      east_blue:
+        ipv4_address: 172.18.0.5
+volumes:
+  cache_data:
 networks:
   east_blue:
     driver: bridge
